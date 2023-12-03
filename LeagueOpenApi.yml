@@ -7,7 +7,7 @@ servers:
 tags:
   - name: league
 paths:
-  /league/{id}:
+  /leagues/{id}:
     get:
       tags:
         - league
@@ -67,7 +67,7 @@ paths:
       responses:
         '200':
           description: Successful response
-  /league:
+  /leagues:
     post:
       tags:
         - league
