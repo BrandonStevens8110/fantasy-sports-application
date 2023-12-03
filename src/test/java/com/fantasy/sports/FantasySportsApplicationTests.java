@@ -1,4 +1,4 @@
-package com.fantasy.sports.fantasysports;
+package com.fantasy.sports;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

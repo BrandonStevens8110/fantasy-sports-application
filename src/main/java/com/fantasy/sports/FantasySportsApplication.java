@@ -1,4 +1,4 @@
-package com.fantasy.sports.fantasysports;
+package com.fantasy.sports;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

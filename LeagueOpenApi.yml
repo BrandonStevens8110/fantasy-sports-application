@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: League Service
+  version: 1.0.0
+servers:
+  - url: http://localhost:8105
+tags:
+  - name: league
+paths:
+  /league/{id}:
+    get:
+      tags:
+        - league
+      summary: Get league by ID
+      operationId: getLeagueById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeagueDTO'
+    put:
+      tags:
+        - league
+      summary: Update league by ID
+      operationId: updateLeagueById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            format: int64
+          required: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeagueDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeagueDTO'
+    delete:
+      tags:
+        - league
+      summary: Delete league by ID
+      operationId: deleteLeagueById
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            format: int64
+          required: true
+      responses:
+        '200':
+          description: Successful response
+  /league:
+    post:
+      tags:
+        - league
+      summary: Create a new league
+      operationId: createLeague
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeagueDTO'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeagueDTO'
+components:
+  schemas:
+    LeagueDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        uuid:
+          type: string
+          format: uuid
+        name:
+          type: string
+        creationDate:
+          type: string
+          format: date
