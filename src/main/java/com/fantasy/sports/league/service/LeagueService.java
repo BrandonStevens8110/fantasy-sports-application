@@ -1,12 +1,11 @@
 package com.fantasy.sports.league.service;
 
-import com.fantasy.sports.Exception.DuplicateDataException;
+import com.fantasy.sports.Exception.InvalidDataException;
 import com.fantasy.sports.league.jpa.entity.League;
 import com.fantasy.sports.league.jpa.repository.LeagueRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -16,12 +15,6 @@ public class LeagueService {
 
     public League createLeague(League league) {
 
-        //verify league doesn't exist
-        Boolean exist = leagueExistById(league.getId());
-
-        if (exist) {
-            throw new DuplicateDataException("League");
-        }
 
         return leagueRepository.save(league);
     }
@@ -31,7 +24,7 @@ public class LeagueService {
         Boolean exist = leagueExistById(league.getId());
 
         if (exist) {
-            throw new DuplicateDataException("League");
+            throw new InvalidDataException("League");
         }
 
         leagueRepository.delete(league);
