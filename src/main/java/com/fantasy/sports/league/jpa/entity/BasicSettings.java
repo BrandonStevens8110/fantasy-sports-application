@@ -1,11 +1,9 @@
 package com.fantasy.sports.league.jpa.entity;
 
+import com.fantasy.sports.league.model.ScoringType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,21 +12,16 @@ import java.util.UUID;
 @AllArgsConstructor
 @Accessors(chain = true)
 @Entity
-public class League {
+public class BasicSettings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     private Long id;
 
-    private UUID uuid;
+    private Long leagueId;
+    private String leagueName;
+    private String numberOfTeams;
+    private ScoringType scoringType;
 
-    @OneToOne
-    private BasicSettings basicSettings;
-
-    @OneToOne
-    private DraftSettings draftSettings;
-
-    @OneToOne
-    private RosterSettings rosterSettings;
 }

@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgreSQL
-    username: postgreSQL
-    password: Bs012600
+    url: jdbc:postgresql://localhost:5432/local_client
+    username: local_client
+    password: brandon012600
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
@@ -10,4 +10,4 @@ spring:
     show-sql: true
 
 server:
-  port: 8090
+  port: 8081

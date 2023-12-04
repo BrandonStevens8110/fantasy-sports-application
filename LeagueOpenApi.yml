@@ -94,11 +94,76 @@ components:
         id:
           type: integer
           format: int64
-        uuid:
+        basicSettingDTO:
+          $ref: '#/components/schemas/BasicSettingsDTO'
+        draftSettingsDTO:
+          $ref: '#/components/schemas/DraftSettingsDTO'
+        rosterSettingsDTO:
+          $ref: '#/components/schemas/RosterSettingsDTO'
+    BasicSettingsDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        leagueId:
+          type: integer
+          format: int64
+        leagueName:
           type: string
-          format: uuid
-        name:
+        numberOfTeams:
           type: string
-        creationDate:
+        scoringType:
+          $ref: '#/components/schemas/ScoringType'
+    DraftSettingsDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        leagueId:
+          type: integer
+          format: int64
+        draftType:
+          type: string
+        draftDate:
           type: string
           format: date
+        secondsPerPick:
+          type: integer
+          default: 90
+#        draftOrder:
+#          type: array
+#          items:
+#            $ref: '#/components/schemas/TeamDTO'
+    RosterSettingsDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        leagueId:
+          type: integer
+          format: int64
+        rosterSize:
+          type: integer
+        numberOfStarters:
+          type: integer
+        numberOfBench:
+          type: integer
+    #Enum
+    ScoringType:
+      type: string
+      enum: [ STANDARD , PPR ]
+#    TeamDTO:
+#      type: object
+#      properties:
+#        id:
+#          type: integer
+#          format: int64
+#        uuid:
+#          type: string
+#          format: uuid
+
+
+
