@@ -23,7 +23,6 @@ public class LeagueService {
             throw new DuplicateDataException("League");
         }
 
-        league.setCreationDate(LocalDate.now());
         return leagueRepository.save(league);
     }
 

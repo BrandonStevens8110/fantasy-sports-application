@@ -1,11 +1,14 @@
 package com.fantasy.sports.league.jpa.entity;
 
+import com.fantasy.sports.league.model.ScoringType;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,21 +17,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @Accessors(chain = true)
 @Entity
-public class League {
-
+public class DraftSettings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     private Long id;
-
-    private UUID uuid;
-
-    @OneToOne
-    private BasicSettings basicSettings;
-
-    @OneToOne
-    private DraftSettings draftSettings;
-
-    @OneToOne
-    private RosterSettings rosterSettings;
+    private Long leagueId;
+    private String draftType;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate draftDate;
+    private Integer secondsPerPick = 90;
 }

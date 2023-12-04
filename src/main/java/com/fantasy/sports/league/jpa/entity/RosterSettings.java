@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -14,21 +11,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @Accessors(chain = true)
 @Entity
-public class League {
-
+public class RosterSettings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     private Long id;
 
-    private UUID uuid;
-
-    @OneToOne
-    private BasicSettings basicSettings;
-
-    @OneToOne
-    private DraftSettings draftSettings;
-
-    @OneToOne
-    private RosterSettings rosterSettings;
+    private Long leagueId;
+    private Integer rosterSize;
+    private Integer numberOfStarters;
+    private Integer numberOfBench;
 }
