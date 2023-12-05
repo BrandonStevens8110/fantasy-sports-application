@@ -132,13 +132,18 @@ components:
           format: int64
         draftType:
           $ref: '#/components/schemas/DraftType'
+          default: SNAKE
         draftDate:
           type: string
-          format: date
-          default: null
+          default: Not Yet Set
+        draftTime:
+          type: string
         secondsPerPick:
           type: integer
           default: 90
+        draftPickTrading:
+          type: boolean
+          default: false
         draftReady:
           type: boolean
           default: false
@@ -158,17 +163,20 @@ components:
           format: int64
         rosterSize:
           type: integer
+          description: value of position.starter + position.bench
         numberOfStarters:
           type: integer
+          description: value of position.starter
         numberOfBench:
           type: integer
+          description: value of position.bench + ir
     #Enum
     ScoringType:
       type: string
       enum: [ STANDARD , PPR ]
     DraftType:
       type: string
-      enum: [ AUTO , SNAKE, AUCTION]
+      enum: [ AUTO , SNAKE, AUCTION , OFFLINE]
 #    TeamDTO:
 #      type: object
 #      properties:
