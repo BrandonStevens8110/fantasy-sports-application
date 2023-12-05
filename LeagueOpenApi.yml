@@ -102,6 +102,10 @@ components:
           $ref: '#/components/schemas/RosterSettingsDTO'
     BasicSettingsDTO:
       type: object
+      required:
+        - leagueName
+        - numberOfTeams
+        - scoringType
       properties:
         id:
           type: integer
@@ -113,6 +117,8 @@ components:
           type: string
         numberOfTeams:
           type: string
+          minimum: 4
+          maximum: 20
         scoringType:
           $ref: '#/components/schemas/ScoringType'
     DraftSettingsDTO:
@@ -125,13 +131,23 @@ components:
           type: integer
           format: int64
         draftType:
-          type: string
+          $ref: '#/components/schemas/DraftType'
+          default: SNAKE
         draftDate:
           type: string
-          format: date
+          default: Not Yet Set
+        draftTime:
+          type: string
         secondsPerPick:
           type: integer
           default: 90
+        draftPickTrading:
+          type: boolean
+          default: false
+        draftReady:
+          type: boolean
+          default: false
+          description: When teams are all registered, and draft date is set, then set to true
 #        draftOrder:
 #          type: array
 #          items:
@@ -147,14 +163,20 @@ components:
           format: int64
         rosterSize:
           type: integer
+          description: value of position.starter + position.bench
         numberOfStarters:
           type: integer
+          description: value of position.starter
         numberOfBench:
           type: integer
+          description: value of position.bench + ir
     #Enum
     ScoringType:
       type: string
       enum: [ STANDARD , PPR ]
+    DraftType:
+      type: string
+      enum: [ AUTO , SNAKE, AUCTION , OFFLINE]
 #    TeamDTO:
 #      type: object
 #      properties:
