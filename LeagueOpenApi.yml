@@ -117,8 +117,6 @@ components:
           type: string
         numberOfTeams:
           type: string
-          minimum: 4
-          maximum: 20
         scoringType:
           $ref: '#/components/schemas/ScoringType'
     DraftSettingsDTO:
@@ -132,10 +130,8 @@ components:
           format: int64
         draftType:
           $ref: '#/components/schemas/DraftType'
-          default: SNAKE
         draftDate:
           type: string
-          default: Not Yet Set
         draftTime:
           type: string
         secondsPerPick:
@@ -143,10 +139,8 @@ components:
           default: 90
         draftPickTrading:
           type: boolean
-          default: false
         draftReady:
           type: boolean
-          default: false
           description: When teams are all registered, and draft date is set, then set to true
 #        draftOrder:
 #          type: array
