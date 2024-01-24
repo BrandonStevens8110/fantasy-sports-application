@@ -18,15 +18,10 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-jpa</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>3.2.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
@@ -43,12 +38,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>com.vaadin.external.google</groupId>
-					<artifactId>android-json</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.validation</groupId>
@@ -62,12 +51,6 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>2.0</version>
 		</dependency>
 
 		<dependency>
@@ -101,7 +84,9 @@
 							<goal>generate</goal>
 						</goals>
 						<configuration>
-							<inputSpec>${project.basedir}/leagueOpenApi.yml</inputSpec>
+							<inputSpec>
+								${project.basedir}/leagueOpenApi.yml
+							</inputSpec>
 							<generatorName>spring</generatorName>
 							<generateModels>true</generateModels>
 							<modelPackage>com.fantasy.sports.league.model</modelPackage>
@@ -112,9 +97,8 @@
 								<additionalModelTypeAnnotations>
 									@lombok.Data
 									@lombok.Builder
-									@lombok.experimental.Accessors(chain=true)
-									@lombok.NoArgsConstructor
 									@lombok.AllArgsConstructor
+									@lombok.Generated
 								</additionalModelTypeAnnotations>
 								<performBeanValidation>true</performBeanValidation>
 								<useBeanValidation>true</useBeanValidation>
@@ -125,6 +109,14 @@
 								<useSpringBoot3>true</useSpringBoot3>
 								<useJakartaEe>true</useJakartaEe>
 							</configOptions>
+							<typeMappings>
+								<typeMapping>DateTime=Instant</typeMapping>
+								<typeMapping>Date=LocalDate</typeMapping>
+							</typeMappings>
+							<importMappings>
+								<importMapping>Instant=java.time.Instant</importMapping>
+								<importMapping>LocalDate=java.time.LocalDate</importMapping>
+							</importMappings>
 						</configuration>
 					</execution>
 				</executions>
