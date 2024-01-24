@@ -132,8 +132,10 @@ components:
           $ref: '#/components/schemas/DraftType'
         draftDate:
           type: string
+          format: time
         draftTime:
           type: string
+          format: time
         secondsPerPick:
           type: integer
           default: 90

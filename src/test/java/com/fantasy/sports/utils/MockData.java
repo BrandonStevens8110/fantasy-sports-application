@@ -56,15 +56,15 @@ public class MockData {
 
     public static DraftSettingsDTO createMockDraftSettingsDTO() {
         return DraftSettingsDTO.builder()
-                .draftType("Mock Draft")
-                .draftDate(LocalDate.now())
+                .draftType(DraftType.AUCTION)
+                .draftDate(String.valueOf(LocalDate.now())) //TODO fix draftDate to take in LocalDate, not string, in openapi spec
+                .draftTime(String.valueOf(LocalDate.now()))
                 .secondsPerPick(60)
                 .build();
     }
 
     public static LeagueDTO createLeagueDTO() {
         return LeagueDTO.builder()
-                .uuid(UUID.randomUUID())
                 .basicSettingDTO(createMockBasicSettingsDTO())
                 .draftSettingsDTO(createMockDraftSettingsDTO())
                 .build();
