@@ -5,6 +5,7 @@ import com.fantasy.sports.league.model.LeagueDTO;
 import com.fantasy.sports.league.service.LeagueService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,11 +26,14 @@ public class LeagueApiImpl implements LeagueApiDelegate{
 
     @Override
     public ResponseEntity<Void> deleteLeagueById(Long id) {
-        return LeagueApiDelegate.super.deleteLeagueById(id);
+        leagueService.deleteLeague(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @Override
     public ResponseEntity<LeagueDTO> getLeagueById(Long id) {
-        return LeagueApiDelegate.super.getLeagueById(id);
+        League league = leagueService.getLeagueById(id);
+
+        return ResponseEntity.ok(modelMapper.map(league, LeagueDTO.class));
     }
 }

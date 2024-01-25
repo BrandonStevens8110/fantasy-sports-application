@@ -3,7 +3,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/local_client
     username: local_client
     password: brandon012600
-#    TODO change password in pgAdmin
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:

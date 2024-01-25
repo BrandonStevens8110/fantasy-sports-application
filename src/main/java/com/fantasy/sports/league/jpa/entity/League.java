@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
@@ -21,6 +20,7 @@ public class League {
     @Column(name = "id", insertable = false, updatable = false)
     private Long id;
 
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
     @OneToOne
