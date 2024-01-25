@@ -34,6 +34,7 @@ public class MockData {
                 .uuid(UUID.randomUUID())
                 .basicSettings(createMockBasicSettings())
                 .draftSettings(createMockDraftSettings())
+                .rosterSettings(createRosterSettings())
                 .build();
     }
 
@@ -67,6 +68,7 @@ public class MockData {
         return LeagueDTO.builder()
                 .basicSettingDTO(createMockBasicSettingsDTO())
                 .draftSettingsDTO(createMockDraftSettingsDTO())
+                .rosterSettingsDTO(createMockRosterSettingsDTO())
                 .build();
     }
 

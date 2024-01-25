@@ -98,7 +98,6 @@
 									@lombok.Data
 									@lombok.Builder
 									@lombok.AllArgsConstructor
-									@lombok.Generated
 								</additionalModelTypeAnnotations>
 								<performBeanValidation>true</performBeanValidation>
 								<useBeanValidation>true</useBeanValidation>
