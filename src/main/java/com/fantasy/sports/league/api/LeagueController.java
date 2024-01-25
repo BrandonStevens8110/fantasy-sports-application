@@ -7,15 +7,19 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/leagues-new")
 @RequiredArgsConstructor
-public class LeagueApiImpl implements LeagueApiDelegate{
+public class LeagueController {
 
     private final ModelMapper modelMapper;
     private final LeagueService leagueService;
-    @Override
+
+    @PostMapping
     public ResponseEntity<LeagueDTO> createLeague(LeagueDTO leagueDTO) {
 
         League leagueToCreate = modelMapper.map(leagueDTO, League.class);
@@ -25,16 +29,4 @@ public class LeagueApiImpl implements LeagueApiDelegate{
         return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(createdLeague, LeagueDTO.class));
     }
 
-    @Override
-    public ResponseEntity<Void> deleteLeagueById(Long id) {
-        leagueService.deleteLeague(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @Override
-    public ResponseEntity<LeagueDTO> getLeagueById(Long id) {
-        League league = leagueService.getLeagueById(id);
-
-        return ResponseEntity.ok(modelMapper.map(league, LeagueDTO.class));
-    }
 }

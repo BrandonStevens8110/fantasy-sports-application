@@ -1,13 +1,13 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/local_client
-    username: local_client
-    password: brandon012600
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
-    show-sql: true
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/local_client
+#    username: local_client
+#    password: @_Bs012600
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    hibernate:
+#      ddl-auto: update
+#    show-sql:
 
 server:
   port: 8081
