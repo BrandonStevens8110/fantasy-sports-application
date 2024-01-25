@@ -1,6 +1,6 @@
 package com.fantasy.sports.league.service;
 
-import com.fantasy.sports.Exception.InvalidDataException;
+import com.fantasy.sports.Exception.NotFoundException;
 import com.fantasy.sports.league.jpa.entity.BasicSettings;
 import com.fantasy.sports.league.jpa.entity.DraftSettings;
 import com.fantasy.sports.league.jpa.entity.League;
@@ -29,18 +29,12 @@ public class LeagueService {
         return leagueRepository.save(league);
     }
 
-    public void deleteLeague(League league) {
-        //verify league doesn't exist
-        Boolean exist = leagueExistById(league.getId());
-
-        if (exist) {
-            throw new InvalidDataException("League");
-        }
-
-        leagueRepository.delete(league);
+    public void deleteLeague(Long id) {
+        getLeagueById(id); //to throw an exception if it doesn't exist
+        leagueRepository.deleteById(id);
     }
 
-    private League buildDefaultLeagueSettings(League league) {
+    protected League buildDefaultLeagueSettings(League league) {
 
         BasicSettings basicSettings = BasicSettings
                 .builder()
@@ -75,8 +69,14 @@ public class LeagueService {
         return league;
     }
 
-    private Boolean leagueExistById (long id) {
+    protected Boolean leagueExistById(long id) {
 
         return leagueRepository.existsById(id);
     }
+
+    public League getLeagueById(Long id) {
+        return leagueRepository.getLeagueById(id)
+                .orElseThrow(() -> new NotFoundException("League with Id" + id));
+    }
+
 }
