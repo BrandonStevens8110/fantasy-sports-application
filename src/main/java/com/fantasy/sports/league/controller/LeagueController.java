@@ -3,11 +3,10 @@ package com.fantasy.sports.league.controller;
 import com.fantasy.sports.league.jpa.dto.LeagueDTO;
 import com.fantasy.sports.league.jpa.entity.League;
 import com.fantasy.sports.league.service.LeagueService;
+import com.fantasy.sports.league.transformer.LeagueTransformer;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,18 +14,29 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class LeagueController {
 
-    private final ModelMapper modelMapper;
+    private final LeagueTransformer leagueTransformer;
     private final LeagueService leagueService;
 
     @PostMapping
     @ResponseBody
     public ResponseEntity<League> createLeague(@RequestBody League league) {
-  //      TODO fix mapper issue
-//        League leagueToCreate = modelMapper.map(League, League.class);
+        //      TODO fix mapper issue
+//        League leagueToCreate = modelMapper.map(league, League.class);
 //
 //        League createdLeague = leagueService.createLeague(leagueToCreate);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(leagueService.createLeague(league));
+    }
+
+    @PostMapping("/new")
+    @ResponseBody
+    public ResponseEntity<LeagueDTO> createLeagueTest(@RequestBody LeagueDTO leagueDTO) {
+
+        League leagueToCreate = modelMapper.map(leagueDTO, League.class);
+
+        League createdLeague = leagueService.createLeague(leagueToCreate);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper.map(createdLeague, LeagueDTO.class));
     }
 
     @GetMapping("/{id}")
@@ -51,7 +61,6 @@ public class LeagueController {
 //
 //        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(modelMapper.map());
 //    }
-
 
 
 }

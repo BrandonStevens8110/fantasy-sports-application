@@ -1,6 +1,6 @@
 package com.fantasy.sports.league.service;
 
-import com.fantasy.sports.Exception.NotFoundException;
+import com.fantasy.sports.exception.NotFoundException;
 import com.fantasy.sports.league.jpa.entity.BasicSettings;
 import com.fantasy.sports.league.jpa.entity.DraftSettings;
 import com.fantasy.sports.league.jpa.entity.League;

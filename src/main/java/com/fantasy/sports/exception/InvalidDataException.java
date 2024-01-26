@@ -1,4 +1,4 @@
-package com.fantasy.sports.Exception;
+package com.fantasy.sports.exception;
 
 public class InvalidDataException extends RuntimeException {
     public InvalidDataException(String message) {
