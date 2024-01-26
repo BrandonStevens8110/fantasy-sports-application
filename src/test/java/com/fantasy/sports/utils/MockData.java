@@ -1,38 +1,42 @@
 package com.fantasy.sports.utils;
 
+import com.fantasy.sports.league.jpa.dto.BasicSettingsDTO;
+import com.fantasy.sports.league.jpa.dto.DraftSettingsDTO;
+import com.fantasy.sports.league.jpa.dto.LeagueDTO;
+import com.fantasy.sports.league.jpa.dto.RosterSettingsDTO;
 import com.fantasy.sports.league.jpa.entity.BasicSettings;
 import com.fantasy.sports.league.jpa.entity.DraftSettings;
 import com.fantasy.sports.league.jpa.entity.League;
 import com.fantasy.sports.league.jpa.entity.RosterSettings;
-import com.fantasy.sports.league.model.*;
+import com.fantasy.sports.league.jpa.enums.DraftType;
+import com.fantasy.sports.league.jpa.enums.ScoringType;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class MockData {
-    public static BasicSettings createMockBasicSettings() {
+    public static BasicSettings createBasicSettings() {
         return BasicSettings.builder()
-                .leagueId(1L)
                 .leagueName("Mock League")
-                .numberOfTeams("8")
+                .numberOfTeams(8)
                 .scoringType(ScoringType.STANDARD)
                 .build();
     }
 
     public static DraftSettings createMockDraftSettings() {
         return DraftSettings.builder()
-                .leagueId(1L)
-                .draftType("Mock Draft")
-                .draftDate(LocalDate.now())
+                .draftType(DraftType.SNAKE)
+                .draftDate(LocalDate.now().toString())
+                .draftTime(LocalDateTime.now().toString())
                 .secondsPerPick(60)
                 .build();
     }
 
     public static League createLeague() {
         return League.builder()
-                .id(1L)
                 .uuid(UUID.randomUUID())
-                .basicSettings(createMockBasicSettings())
+                .basicSettings(createBasicSettings())
                 .draftSettings(createMockDraftSettings())
                 .rosterSettings(createRosterSettings())
                 .build();
@@ -58,8 +62,9 @@ public class MockData {
     public static DraftSettingsDTO createMockDraftSettingsDTO() {
         return DraftSettingsDTO.builder()
                 .draftType(DraftType.AUCTION)
-                .draftDate(String.valueOf(LocalDate.now())) //TODO fix draftDate to take in LocalDate, not string, in openapi spec
-                .draftTime(String.valueOf(LocalDate.now()))
+                .draftDate(LocalDate.now().toString())
+                .draftTime(LocalDateTime.now().toString())
+
                 .secondsPerPick(60)
                 .build();
     }

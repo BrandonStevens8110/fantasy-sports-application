@@ -1,11 +1,14 @@
 package com.fantasy.sports.league.jpa.entity;
 
+import com.fantasy.sports.league.jpa.enums.DraftType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -21,10 +24,18 @@ public class DraftSettings {
     private Long id;
 
     private Long leagueId;
-    private String draftType;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    private LocalDate draftDate;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "draft_type")
+    private DraftType draftType;
+
+    private String draftDate;
+
+    private String draftTime;
 
     private Integer secondsPerPick;
+
+    private Boolean draftPickTrading;
+
+    private Boolean draftReady;
 }

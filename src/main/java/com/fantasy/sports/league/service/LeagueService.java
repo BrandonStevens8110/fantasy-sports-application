@@ -23,60 +23,48 @@ public class LeagueService {
     private final RosterSettingsRepository rosterSettingsRepository;
 
     public League createLeague(League league) {
+        League savedLeague = leagueRepository.save(league);
 
-        buildDefaultLeagueSettings(league);
+        BasicSettings basicSettings = BasicSettings.builder()
+                .leagueId(savedLeague.getId())
+                .scoringType(league.getBasicSettings().getScoringType())
+                .leagueName(league.getBasicSettings().getLeagueName())
+                .numberOfTeams(league.getBasicSettings().getNumberOfTeams())
+                .build();
+        BasicSettings savedBasicSettings = basicSettingsRepository.save(basicSettings);
 
-        return leagueRepository.save(league);
+        DraftSettings draftSettings = DraftSettings.builder()
+                .leagueId(savedLeague.getId())
+                .draftTime(league.getDraftSettings().getDraftTime())
+                .draftDate(league.getDraftSettings().getDraftDate())
+                .secondsPerPick(league.getDraftSettings().getSecondsPerPick())
+                .draftReady(league.getDraftSettings().getDraftReady())
+                .draftPickTrading(league.getDraftSettings().getDraftPickTrading())
+                .build();
+        DraftSettings savedDraftSettings = draftSettingsRepository.save(draftSettings);
+
+        RosterSettings rosterSettings = RosterSettings.builder()
+                .leagueId(savedLeague.getId())
+                .numberOfStarters(league.getRosterSettings().getNumberOfStarters())
+                .numberOfBench(league.getRosterSettings().getNumberOfBench())
+                .rosterSize(league.getRosterSettings().getRosterSize() + league.getRosterSettings().getNumberOfStarters())
+                .build();
+        RosterSettings savedRosterSettings = rosterSettingsRepository.save(rosterSettings);
+
+        savedLeague.setBasicSettings(savedBasicSettings);
+        savedLeague.setDraftSettings(savedDraftSettings);
+        savedLeague.setRosterSettings(savedRosterSettings);
+
+        return savedLeague;
     }
 
     public void deleteLeague(Long id) {
-        getLeagueById(id); //to throw an exception if it doesn't exist
+
         leagueRepository.deleteById(id);
-    }
-
-    protected League buildDefaultLeagueSettings(League league) {
-
-        BasicSettings basicSettings = BasicSettings
-                .builder()
-                .leagueId(league.getId())
-                .leagueName(league.getBasicSettings().getLeagueName())
-                .numberOfTeams(league.getBasicSettings().getNumberOfTeams())
-                .scoringType(league.getBasicSettings().getScoringType())
-                .build();
-
-        DraftSettings draftSettings = DraftSettings
-                .builder()
-                .leagueId(league.getId())
-                .secondsPerPick(league.getDraftSettings().getSecondsPerPick())
-                .draftType(league.getDraftSettings().getDraftType())
-                .draftDate(league.getDraftSettings().getDraftDate())
-                .build();
-
-        RosterSettings rosterSettings = RosterSettings
-                .builder()
-                .leagueId(league.getId())
-                .rosterSize(league.getRosterSettings().getRosterSize())
-                .build();
-
-        basicSettingsRepository.save(basicSettings);
-        draftSettingsRepository.save(draftSettings);
-        rosterSettingsRepository.save(rosterSettings);
-
-        league.setBasicSettings(basicSettings);
-        league.setDraftSettings(draftSettings);
-        league.setRosterSettings(rosterSettings);
-
-        return league;
-    }
-
-    protected Boolean leagueExistById(long id) {
-
-        return leagueRepository.existsById(id);
     }
 
     public League getLeagueById(Long id) {
         return leagueRepository.getLeagueById(id)
                 .orElseThrow(() -> new NotFoundException("League with Id" + id));
     }
-
 }

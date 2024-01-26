@@ -22,10 +22,6 @@
 			<artifactId>modelmapper</artifactId>
 			<version>3.2.0</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.springframework.boot</groupId>-->
-<!--			<artifactId>spring-boot-starter-validation</artifactId>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -40,109 +36,29 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>jakarta.validation</groupId>
-			<artifactId>jakarta.validation-api</artifactId>
-		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>com.fasterxml.jackson.core</groupId>-->
-<!--			<artifactId>jackson-annotations</artifactId>-->
-<!--		</dependency>-->
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
-
-<!--		<dependency>-->
-<!--			<groupId>jakarta.persistence</groupId>-->
-<!--			<artifactId>jakarta.persistence-api</artifactId>-->
-<!--			<version>3.1.0</version>-->
-<!--		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<version>3.2.0</version>
 		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>org.postgresql</groupId>-->
-<!--			<artifactId>postgresql</artifactId>-->
-<!--			<version>42.7.0</version>-->
-<!--		</dependency>-->
-
-
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version> 2.2.224</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.openapitools</groupId>
-				<artifactId>openapi-generator-maven-plugin</artifactId>
-				<version>7.0.0</version>
-				<executions>
-					<execution>
-						<id>league</id>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-						<configuration>
-							<inputSpec>
-								${project.basedir}/leagueOpenApi.yml
-							</inputSpec>
-							<generatorName>spring</generatorName>
-							<generateModels>true</generateModels>
-							<modelPackage>com.fantasy.sports.league.model</modelPackage>
-							<apiPackage>com.fantasy.sports.league.api</apiPackage>
-							<skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
-							<configOptions>
-								<delegatePattern>true</delegatePattern>
-								<additionalModelTypeAnnotations>
-									@lombok.Data
-									@lombok.Builder
-									@lombok.AllArgsConstructor
-								</additionalModelTypeAnnotations>
-								<performBeanValidation>false</performBeanValidation>
-								<useBeanValidation>false</useBeanValidation>
-								<documentationProvider>none</documentationProvider>
-								<openApiNullable>false</openApiNullable>
-								<useTags>true</useTags>
-								<generateConstructorWithRequiredArgs>false</generateConstructorWithRequiredArgs>
-								<useSpringBoot3>true</useSpringBoot3>
-								<useJakartaEe>true</useJakartaEe>
-							</configOptions>
-							<typeMappings>
-								<typeMapping>DateTime=Instant</typeMapping>
-								<typeMapping>Date=LocalDate</typeMapping>
-							</typeMappings>
-							<importMappings>
-								<importMapping>Instant=java.time.Instant</importMapping>
-								<importMapping>LocalDate=java.time.LocalDate</importMapping>
-							</importMappings>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<mainClass>com.fantasy.sports.FantasySportsApplication</mainClass>
 				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>process-sources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<target>
-								<!-- remove the unwanted generated testcases by the spring generator of openapi -->
-								<delete dir="${project.build.directory}/generated-sources/openapi/src/test"/>
-							</target>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

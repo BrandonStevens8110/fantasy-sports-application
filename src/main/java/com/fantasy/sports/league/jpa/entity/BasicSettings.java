@@ -1,6 +1,7 @@
 package com.fantasy.sports.league.jpa.entity;
 
-import com.fantasy.sports.league.model.ScoringType;
+
+import com.fantasy.sports.league.jpa.enums.ScoringType;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -21,7 +22,10 @@ public class BasicSettings {
 
     private Long leagueId;
     private String leagueName;
-    private String numberOfTeams;
+    private Integer numberOfTeams;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "scoring_type")
     private ScoringType scoringType;
 
 }

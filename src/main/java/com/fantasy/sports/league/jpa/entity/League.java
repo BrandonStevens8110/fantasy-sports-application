@@ -11,7 +11,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
-@Accessors(chain = true)
 @Entity
 public class League {
 
@@ -23,12 +22,12 @@ public class League {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private BasicSettings basicSettings;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private DraftSettings draftSettings;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private RosterSettings rosterSettings;
 }

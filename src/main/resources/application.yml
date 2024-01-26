@@ -9,5 +9,20 @@
 #      ddl-auto: update
 #    show-sql:
 
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb  # H2 in-memory database
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update  # You can change this to 'create-drop' if you want to recreate the schema on every start
+    show-sql: true
+    generate-ddl: true
+
 server:
   port: 8081
