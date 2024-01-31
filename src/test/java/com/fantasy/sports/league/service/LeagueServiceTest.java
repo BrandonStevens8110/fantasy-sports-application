@@ -1,25 +1,20 @@
 package com.fantasy.sports.league.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
-import com.fantasy.sports.league.jpa.entity.BasicSettings;
-import com.fantasy.sports.league.jpa.entity.DraftSettings;
+import com.fantasy.sports.exception.NotFoundException;
 import com.fantasy.sports.league.jpa.entity.League;
-import com.fantasy.sports.league.jpa.entity.RosterSettings;
-import com.fantasy.sports.league.jpa.repository.BasicSettingsRepository;
-import com.fantasy.sports.league.jpa.repository.DraftSettingsRepository;
+import com.fantasy.sports.league.jpa.enums.ScoringType;
 import com.fantasy.sports.league.jpa.repository.LeagueRepository;
-import com.fantasy.sports.league.jpa.repository.RosterSettingsRepository;
-import com.fantasy.sports.utils.MockData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,51 +23,26 @@ class LeagueServiceTest {
     @Mock
     private LeagueRepository leagueRepository;
 
-    @Mock
-    private BasicSettingsRepository basicSettingsRepository;
-
-    @Mock
-    private DraftSettingsRepository draftSettingsRepository;
-
-    @Mock
-    private RosterSettingsRepository rosterSettingsRepository;
-
     @InjectMocks
     private LeagueService leagueService;
 
     @Test
     void testCreateLeague() {
-        // Mock data
-        League league = new League();
-        BasicSettings basicSettings = BasicSettings.builder().build();
-        DraftSettings draftSettings = DraftSettings.builder().build();
-        RosterSettings rosterSettings = RosterSettings.builder().build();
+        League league = League
+                .builder()
+                .leagueName("testName")
+                .scoringType(ScoringType.PPR)
+                .numberOfTeams(12)
+                .numberOfStarters(12)
+                .build();
 
-        // Mock repository save methods
         when(leagueRepository.save(league)).thenReturn(league);
-        when(basicSettingsRepository.save(any(BasicSettings.class))).thenReturn(basicSettings);
-        when(draftSettingsRepository.save(any(DraftSettings.class))).thenReturn(draftSettings);
-        when(rosterSettingsRepository.save(any(RosterSettings.class))).thenReturn(rosterSettings);
 
-        // Call the method
         League resultLeague = leagueService.createLeague(league);
 
-        // Verify repository save method's
         verify(leagueRepository, times(1)).save(league);
-        verify(basicSettingsRepository, times(1)).save(any(BasicSettings.class));
-        verify(draftSettingsRepository, times(1)).save(any(DraftSettings.class));
-        verify(rosterSettingsRepository, times(1)).save(any(RosterSettings.class));
 
-        // Assertions using AssertJ
         assertThat(resultLeague).isNotNull();
-        assertThat(resultLeague.getBasicSettings()).isNotNull();
-        assertThat(resultLeague.getDraftSettings()).isNotNull();
-        assertThat(resultLeague.getRosterSettings()).isNotNull();
-
-        // Assert that leagueId is the same for all entities
-        assertThat(resultLeague.getId()).isEqualTo(resultLeague.getBasicSettings().getLeagueId());
-        assertThat(resultLeague.getId()).isEqualTo(resultLeague.getDraftSettings().getLeagueId());
-        assertThat(resultLeague.getId()).isEqualTo(resultLeague.getRosterSettings().getLeagueId());
     }
 
     @Test
@@ -85,8 +55,91 @@ class LeagueServiceTest {
         leagueService.deleteLeague(sampleLeagueId);
 
         verify(leagueRepository).getLeagueById(sampleLeagueId);
-
         verify(leagueRepository).deleteById(sampleLeagueId);
     }
-}
 
+    @Test
+    public void testGetLeagueById() {
+        Long sampleLeagueId = 1L;
+
+        League sampleLeague = new League();
+        when(leagueRepository.getLeagueById(sampleLeagueId)).thenReturn(Optional.of(sampleLeague));
+
+        // Call the method
+        League resultLeague = leagueService.getLeagueById(sampleLeagueId);
+
+        // Assertions using AssertJ
+        assertThat(resultLeague).isNotNull();
+        assertThat(resultLeague).isEqualTo(sampleLeague);
+    }
+
+    @Test
+    public void testGetLeagueByIdNotFound() {
+        Long nonExistingLeagueId = 99L;
+
+        when(leagueRepository.getLeagueById(nonExistingLeagueId)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> leagueService.getLeagueById(nonExistingLeagueId))
+                .isInstanceOf(NotFoundException.class)
+                .hasMessageContaining("League with Id" + nonExistingLeagueId);
+    }
+
+    @Test
+    public void testFilterLeagues() {
+        // Mock data
+        String leagueName = "testName";
+        Integer numberOfTeams = 12;
+        Integer rosterSize = 16;
+        Integer numberOfStarters = 8;
+        Integer numberOfBench = 4;
+        ScoringType scoringType = ScoringType.PPR;
+
+        when(leagueRepository.findByParams(leagueName, numberOfTeams, rosterSize, numberOfStarters, numberOfBench, scoringType))
+                .thenReturn(List.of());
+
+        List<League> resultLeagues = leagueService.filterLeagues(leagueName, numberOfTeams, rosterSize, numberOfStarters, numberOfBench, scoringType);
+
+        assertThat(resultLeagues).isNotNull();
+        assertThat(resultLeagues).isEmpty();
+    }
+
+    @Test
+    public void testUpdateLeague() {
+        Long existingLeagueId = 1L;
+
+        League existingLeague = League.builder()
+                .id(existingLeagueId)
+                .leagueName("Existing League")
+                .numberOfTeams(10)
+                .rosterSize(15)
+                .numberOfStarters(7)
+                .numberOfBench(5)
+                .scoringType(ScoringType.STANDARD)
+                .build();
+
+        League updatedLeague = League.builder()
+                .leagueName("Updated League")
+                .numberOfTeams(12)
+                .rosterSize(16)
+                .numberOfStarters(8)
+                .numberOfBench(4)
+                .scoringType(ScoringType.PPR)
+                .build();
+
+        when(leagueRepository.getLeagueById(existingLeagueId)).thenReturn(Optional.of(existingLeague));
+        when(leagueRepository.save(any())).thenReturn(updatedLeague);
+
+        League resultLeague = leagueService.updateLeague(existingLeagueId, updatedLeague);
+
+        verify(leagueRepository, times(1)).getLeagueById(existingLeagueId);
+        verify(leagueRepository, times(1)).save(any());
+
+        assertThat(resultLeague).isNotNull();
+        assertThat(resultLeague.getLeagueName()).isEqualTo(updatedLeague.getLeagueName());
+        assertThat(resultLeague.getNumberOfTeams()).isEqualTo(updatedLeague.getNumberOfTeams());
+        assertThat(resultLeague.getRosterSize()).isEqualTo(updatedLeague.getRosterSize());
+        assertThat(resultLeague.getNumberOfStarters()).isEqualTo(updatedLeague.getNumberOfStarters());
+        assertThat(resultLeague.getNumberOfBench()).isEqualTo(updatedLeague.getNumberOfBench());
+        assertThat(resultLeague.getScoringType()).isEqualTo(updatedLeague.getScoringType());
+    }
+}

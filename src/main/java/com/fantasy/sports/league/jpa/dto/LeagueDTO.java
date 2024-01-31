@@ -1,5 +1,6 @@
 package com.fantasy.sports.league.jpa.dto;
 
+import com.fantasy.sports.league.jpa.enums.ScoringType;
 import lombok.*;
 
 import java.util.UUID;
@@ -16,9 +17,10 @@ public class LeagueDTO {
 
     private UUID uuid;
 
-    private BasicSettingsDTO basicSettingDTO;
-
-    private DraftSettingsDTO draftSettingsDTO;
-
-    private RosterSettingsDTO rosterSettingsDTO;
+    private String leagueName;
+    private Integer numberOfTeams;
+    private Integer rosterSize;
+    private Integer numberOfStarters;
+    private Integer numberOfBench;
+    private ScoringType scoringType;
 }

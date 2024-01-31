@@ -1,17 +1,6 @@
-#spring:
-#  datasource:
-#    url: jdbc:postgresql://localhost:5432/local_client
-#    username: local_client
-#    password: @_Bs012600
-#  jpa:
-#    database-platform: org.hibernate.dialect.PostgreSQLDialect
-#    hibernate:
-#      ddl-auto: update
-#    show-sql:
-
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb  # H2 in-memory database
+    url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
     username: sa
     password: password
@@ -20,9 +9,9 @@ spring:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: update  # You can change this to 'create-drop' if you want to recreate the schema on every start
+      ddl-auto: update
     show-sql: true
     generate-ddl: true
 
 server:
-  port: 8081
+  port: 9000

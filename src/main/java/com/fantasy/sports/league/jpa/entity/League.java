@@ -1,8 +1,8 @@
 package com.fantasy.sports.league.jpa.entity;
 
+import com.fantasy.sports.league.jpa.enums.ScoringType;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.Accessors;
 
 import java.util.UUID;
 
@@ -21,13 +21,13 @@ public class League {
 
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
+    private String leagueName;
+    private Integer numberOfTeams;
+    private Integer rosterSize;
+    private Integer numberOfStarters;
+    private Integer numberOfBench;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private BasicSettings basicSettings;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private DraftSettings draftSettings;
-
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private RosterSettings rosterSettings;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "scoring_type")
+    private ScoringType scoringType;
 }

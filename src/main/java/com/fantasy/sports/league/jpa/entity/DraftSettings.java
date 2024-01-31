@@ -3,19 +3,12 @@ package com.fantasy.sports.league.jpa.entity;
 import com.fantasy.sports.league.jpa.enums.DraftType;
 import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 @Getter
 @Setter
 @RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
-@Accessors(chain = true)
 @Entity
 public class DraftSettings {
     @Id
